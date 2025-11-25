@@ -1,12 +1,4 @@
-# Template README for BINF 503 Project
-
-## Open on GitHub: [template\_\_README.md](https://github.com/nourgaser-giu/giu-bi-ebd-w2025/blob/main/template__milestone0_README.md)
-
-## Download (ctrl+s to save): [template\_\_README.md](https://raw.githubusercontent.com/nourgaser-giu/giu-bi-ebd-w2025/main/template__milestone0_README.md)
-
-<!-- Delete all of the above for your submission -->
-
-# [Insert Project Name Here]
+# [Reward A Farmer]
 
 **Course:** Electronic Business Development (BINF 503)  
 **Semester:** Winter 2025  
@@ -21,11 +13,11 @@ _List all team members (5-6 students) below._
 
 | Name             | Student ID | Tutorial Group | GitHub Username |
 | :--------------- | :--------- | :------------- | :-------------- |
-| [Student 1 Name] | [ID]       | [T#]           | [@username]     |
-| [Student 2 Name] | [ID]       | [T#]           | [@username]     |
-| [Student 3 Name] | [ID]       | [T#]           | [@username]     |
-| [Student 4 Name] | [ID]       | [T#]           | [@username]     |
-| [Student 5 Name] | [ID]       | [T#]           | [@username]     |
+| [Nadeen Elkhalifa] | [13004534]       | [T5]           | [@nadeenkhalifa]     |
+| [Zeina Fahim] | [130077626]       | [T5]           | [@zeinafahim]     |
+| [Hania Mohsen] | [1300]       | [T5]           | [@Hania-BI]     |
+| [Malak Madyan] | [1300]       | [T5]           | [@malakmadyan2]     |
+| [Gamila Anwar] | [1300]       | [T5]           | [@username]     |
 | [Student 6 Name] | [ID]       | [T#]           | [@username]     |
 
 ---
