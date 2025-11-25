@@ -31,7 +31,7 @@ _Provide a detailed description of your project concept here. What is the app? W
 - The app also enables farmers to exchange waste for vouchers or discounts on eco-friendly products, track recycling trucks via GPS, and access video tutorials on modern farming and waste management.
 - Partner banks use wallet transaction history as a proxy for credit scoring, allowing farmers to qualify for microloans disbursed directly into their wallet.
 - The app solves several problems such as agricultural wate mismanagement, farmer financial exclusion, low-adoption of eco-friendly practices and weak market linkages.
-- **Link to Fin-Tech Course Document:** (https://www.canva.com/design/DAG42w8Iymc/Eua9EHPI2xOngmOR7N7AXg/edit))
+- **Link to Fin-Tech Course Document:** (https://www.canva.com/design/DAG42w8Iymc/Eua9EHPI2xOngmOR7N7AXg/edit)
 
 ---
 
