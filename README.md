@@ -68,7 +68,7 @@ _Assign one distinct use case from Section 3.2 to each team member. This member 
 | :---------- | :---------------------- | :----------------------------------------------- |
 | Zeina Fahim | **User Authentication** | Responsible for implementing secure user registration and login, password hashing, and JWT-based authentication. Includes role-based access control for farmers, collectors, and admin users, and protecting all restricted backend routes. |
 | Malak Madyan | **Waste Delivery Request**            | Farmers submit a waste collection request with type, weight, and location. It’s saved as “pending” until a collector handles it, starting the waste-to-reward process.|
-| Hania Mohsen | **Micro Loan request**            | Submit and track microloan requests.           |
+| Hania Mohsen | **Microloan Request**            | Submit and track microloan requests.           |
 | Nadeen Khalifa | **E-wallet**            | Transforms waste into direct financial value, while also opening the door to formal financial services and sustainable farming practices.                    |
 | Gamila Anwar | **Transaction History**            | Responsible for developing an organized financial activity log that allows farmers to view and track all transactions within the app. This includes displaying waste-to-reward payments, e-wallet deposits and withdrawals, microloan disbursements and repayments, and incentive earnings.                                   |
 |                                    |
@@ -260,7 +260,7 @@ WasteRequestSchema.pre("save", function(next){
 
 export default mongoose.model("WasteRequest", WasteRequestSchema);
 ```
-### Transaction History Request Schema
+### Transaction History Schema
 
 ```javascript
 const mongoose = require('mongoose');
