@@ -265,59 +265,56 @@ export default mongoose.model("WasteRequest", WasteRequestSchema);
 ```javascript
 const mongoose = require('mongoose');
 
+// User Schema
+const UserSchema = new mongoose.Schema({
+  name: { type: String, required: true }, // Farmer's name
+  phone: { type: String, unique: true },  // Contact number
+  email: { type: String, unique: true },  // Email address
+  role: { type: String, enum: ['farmer', 'admin'], default: 'farmer' }, // Role in system
+  createdAt: { type: Date, default: Date.now }, // Account creation date
+  updatedAt: { type: Date, default: Date.now }  // Last update timestamp
+});
+
+
+// Account Schema (like EWallet but more general)
+const AccountSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Link to User
+  balance: { type: Number, required: true, default: 0 }, // Current balance
+  currency: { type: String, required: true, default: 'EGP' }, // Currency type
+  transactions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Transaction' }], // Linked transactions
+  createdAt: { type: Date, default: Date.now }, // Account creation date
+  updatedAt: { type: Date, default: Date.now }  // Last update timestamp
+});
+
+
+// Transaction Schema
 const TransactionSchema = new mongoose.Schema({
-  userId: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
-    required: true 
-  }, // User who performed the transaction
-
-  walletId: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'EWallet', 
-    required: true 
-  }, // Link to the user's wallet
-
+  accountId: { type: mongoose.Schema.Types.ObjectId, ref: 'Account', required: true }, // Link to Account
   type: { 
     type: String, 
     enum: [
-      'waste_reward',      // credit
-      'deposit',           // credit
-      'withdrawal',        // debit
-      'loan_disbursement', // credit
-      'loan_repayment'     // debit
+      'waste_to_reward', 
+      'deposit', 
+      'withdrawal', 
+      'microloan_disbursement', 
+      'microloan_repayment', 
+      'incentive_earning'
     ], 
     required: true 
-  }, // Specific type of transaction
-
-  direction: { 
-    type: String, 
-    enum: ['credit', 'debit'], 
-    required: true 
-  }, // Matches your wallet's style (credit/debit)
-
-  amount: { 
-    type: Number, 
-    required: true 
-  }, // Value of transaction
-
-  description: { 
-    type: String 
-  }, // e.g., "Reward for 10kg waste", "Loan repayment"
-
-  date: { 
-    type: Date, 
-    default: Date.now 
-  }, // Timestamp
-
-  relatedEntityId: { 
-    type: mongoose.Schema.Types.ObjectId 
-  }, // Optional link to Waste Request or Loan
-
-  relatedEntityType: { 
-    type: String, 
-    enum: ['WasteRequest', 'MicroLoan', null] 
-  }, // Helps identify the type of record
+  }, // Transaction type
+  amount: { type: Number, required: true }, // Transaction amount
+  description: { type: String }, // Optional note (e.g., "Waste reward", "Loan repayment")
+  status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'completed' }, // Transaction status
+  metadata: { type: Object }, // Flexible field for extra info (loan ID, reward source, etc.)
+  date: { type: Date, default: Date.now }, // Timestamp
+  createdAt: { type: Date, default: Date.now }, // Record creation date
+  updatedAt: { type: Date, default: Date.now }  // Last update timestamp
 });
 
-module.exports = mongoose.model('Transaction', TransactionSchema);
+
+// Export models
+module.exports = {
+  User: mongoose.model('User', UserSchema),
+  Account: mongoose.model('Account', AccountSchema),
+  Transaction: mongoose.model('Transaction', TransactionSchema)
+};
