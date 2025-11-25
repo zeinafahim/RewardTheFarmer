@@ -66,7 +66,7 @@ _Assign one distinct use case from Section 3.2 to each team member. This member 
 
 | Team Member | Assigned Use Case       | Brief Description of Responsibility              |
 | :---------- | :---------------------- | :----------------------------------------------- |
-| Zeina Fahim | **User Authentication** | Register, Login, JWT handling, Password Hashing. |
+| Zeina Fahim | **User Authentication** | Responsible for implementing secure user registration and login, password hashing, and JWT-based authentication. Includes role-based access control for farmers, collectors, and admin users, and protecting all restricted backend routes. |
 | Malak Madyan | **waste delivery request**            | 2. Submit Waste Delivery Request Purpose: Allows farmers to request waste collection through the app. What it includes: Form for choosing waste type Entering estimated weight Adding location (manual or GPS) Submitting the request to backend Status: “pending” until a collector handles it Why it matters: This is the core action the entire platform depends on — it’s how farmers start the process and earn money.|
 | Hania Mohsen | **Micro Loan request**            | Submit and track microloan requests.           |
 | Nadeen Khalifa | **E-wallet**            | Transforms waste into direct financial value, while also opening the door to formal financial services and sustainable farming practices.                    |
