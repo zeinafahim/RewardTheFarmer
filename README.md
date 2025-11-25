@@ -292,7 +292,5 @@ const TransactionSchema = new mongoose.Schema({
 
 // Export models
 module.exports = {
-  User: mongoose.model('User', UserSchema),
-  Account: mongoose.model('Account', AccountSchema),
   Transaction: mongoose.model('Transaction', TransactionSchema)
 };
