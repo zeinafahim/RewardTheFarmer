@@ -207,3 +207,56 @@ const EWalletSchema = new mongoose.Schema({
 module.exports = mongoose.model('EWallet', EWalletSchema);
 
 ```
+### waste request schema
+
+```javascript
+// models/WasteRequest.js
+import mongoose from "mongoose";
+
+const LocationSchema = new mongoose.Schema({
+  address: { type: String },                                      // human readable
+  coords: {
+    type: { type: String, enum: ["Point"], default: "Point" },
+    coordinates: { type: [Number], index: "2dsphere" }            // [lng, lat]
+  }
+}, { _id: false });
+
+const WasteRequestSchema = new mongoose.Schema({
+  farmer: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  wasteType: { type: String, required: true },                    // consider enum: ["organic","plastic",...]
+  estimatedWeightKg: { type: Number, required: true, min: 0 },
+  // location provided manually or by GPS
+  location: { type: LocationSchema, required: false },
+  notes: { type: String },
+
+  // lifecycle / assignment / verification
+  status: {
+    type: String,
+    enum: ["pending","assigned","verified","completed","rejected","cancelled"],
+    default: "pending"
+  },
+  assignedCollector: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  assignedAt: Date,
+
+  // verification data recorded by collector
+  verifiedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  actualWeightKg: { type: Number, min: 0 },
+  verifiedAt: Date,
+  verificationNotes: String,
+
+  // reward calculation / reference to transaction(s)
+  rewardTransaction: { type: mongoose.Schema.Types.ObjectId, ref: "Transaction" },
+
+  // audit
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: Date
+});
+
+// update updatedAt on save
+WasteRequestSchema.pre("save", function(next){
+  this.updatedAt = new Date();
+  next();
+});
+
+export default mongoose.model("WasteRequest", WasteRequestSchema);
+```
