@@ -26,8 +26,14 @@ _List all team members (5-6 students) below._
 
 _Provide a detailed description of your project concept here. What is the app? What problem does it solve?_
 
-- **Concept:** [Brief Summary]
-- **Link to Fin-Tech Course Document:** [Insert Link if applicable]
+- **Concept:** - Reward a Farmer is a digital Agri-FinTech platform designed to encourage Egyptian farmers to collect and recycle agricultural waste. The app integrates an e-wallet system, a waste-to-value exchange, farmer education modules, and microloan access into one seamless ecosystem.
+- The mobile application that rewards farmers with instant digital payments for every kilogram of waste they collect.
+- Farmers can use their in-app wallet to cash out, purchase farm inputs (fertilizers, seeds, Baramoda compost), or transfer money peer-to-peer.
+- The app also enables farmers to exchange waste for vouchers or discounts on eco-friendly products, track recycling trucks via GPS, and access video tutorials on modern farming and waste management.
+- Partner banks use wallet transaction history as a proxy for credit scoring, allowing farmers to qualify for microloans disbursed directly into their wallet.
+- The app solves several problems such as agricultural wate mismanagement, farmer financial exclusion, low-adoption of eco-friendly practices and weak market linkages.
+- **Link to Fin-Tech Course Document:** (https://www.canva.com/design/DAG42w8Iymc/Eua9EHPI2xOngmOR7N7AXg/edit)
+- )
 
 ---
 
