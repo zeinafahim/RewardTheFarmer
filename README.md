@@ -90,7 +90,7 @@ const UserSchema = new mongoose.Schema({
 });
 ```
 
-### [Microloan Request Schema
+### Microloan Request Schema
 
 ```javascript
 const MicroloanRequestSchema = new mongoose.Schema({
