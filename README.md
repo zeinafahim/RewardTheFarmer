@@ -265,28 +265,6 @@ export default mongoose.model("WasteRequest", WasteRequestSchema);
 ```javascript
 const mongoose = require('mongoose');
 
-// User Schema
-const UserSchema = new mongoose.Schema({
-  name: { type: String, required: true }, // Farmer's name
-  phone: { type: String, unique: true },  // Contact number
-  email: { type: String, unique: true },  // Email address
-  role: { type: String, enum: ['farmer', 'admin'], default: 'farmer' }, // Role in system
-  createdAt: { type: Date, default: Date.now }, // Account creation date
-  updatedAt: { type: Date, default: Date.now }  // Last update timestamp
-});
-
-
-// Account Schema (like EWallet but more general)
-const AccountSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Link to User
-  balance: { type: Number, required: true, default: 0 }, // Current balance
-  currency: { type: String, required: true, default: 'EGP' }, // Currency type
-  transactions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Transaction' }], // Linked transactions
-  createdAt: { type: Date, default: Date.now }, // Account creation date
-  updatedAt: { type: Date, default: Date.now }  // Last update timestamp
-});
-
-
 // Transaction Schema
 const TransactionSchema = new mongoose.Schema({
   accountId: { type: mongoose.Schema.Types.ObjectId, ref: 'Account', required: true }, // Link to Account
