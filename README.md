@@ -37,13 +37,13 @@ _Provide a detailed description of your project concept here. What is the app? W
 _List ALL potential features/user stories envisioned for the complete product (beyond just this course)._
 
 - User Authentication
-- Send Waste collection request
-- Track waste collectors truck routes
+- Send Waste Collection Request
+- Track Waste Collectors Truck Routes
 - E-wallet (recieve incentives, withdraw, deposit capabilities)
 - Transaction History
 - Marketplace
 - In App Educational Tutorials
-- Micro Loan request
+- Microloan Request
 
 
 
@@ -52,10 +52,10 @@ _List ALL potential features/user stories envisioned for the complete product (b
 _From the list above, identify the **5 or 6 specific use cases** you will implement for this course. Note: User Authentication is mandatory._
 
 1.  **User Authentication** (Registration/Login)
-2.  Send Waste collection request
+2.  Send Waste Collection Request
 3.  E-wallet
 4.  Transaction History
-5.  Micro Loan request
+5.  Microloan Request
 
 
 ---
@@ -68,8 +68,8 @@ _Assign one distinct use case from Section 3.2 to each team member. This member 
 | :---------- | :---------------------- | :----------------------------------------------- |
 | Zeina Fahim | **User Authentication** | Register, Login, JWT handling, Password Hashing. |
 | Malak Madyan | **aste delivery request**            | [e.g., Create and view Transaction history]      |
-| Hania Mohsen | **Micro Loan request**            | Submit and track microloan requests           |
-| Nadeen Khalifa | **E-wallet**            | [e.g., Transfer funds logic]                     |
+| Hania Mohsen | **Micro Loan request**            | Submit and track microloan requests.           |
+| Nadeen Khalifa | **E-wallet**            | Transforms waste into direct financial value, while also opening the door to formal financial services and sustainable farming practices.                    |
 | Gamila Anwar | **Transaction History**            | [Description]                                    |
 |                                    |
 
@@ -90,7 +90,7 @@ const UserSchema = new mongoose.Schema({
 });
 ```
 
-### [Micro Loan request] Schema
+### [Microloan Request Schema
 
 ```javascript
 const MicroloanRequestSchema = new mongoose.Schema({
@@ -108,8 +108,62 @@ const MicroloanRequestSchema = new mongoose.Schema({
 });
 ```
 
-### [Model 3 Name] Schema
+### E-wallet Schema
 
 ```javascript
-// Define schema here
+const mongoose = require('mongoose');
+
+const EWalletSchema = new mongoose.Schema({
+  userId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User', 
+    required: true 
+  }, // Link to the User who owns the wallet
+
+  balance: { 
+    type: Number, 
+    required: true, 
+    default: 0 
+  }, // Current wallet balance
+
+  currency: { 
+    type: String, 
+    required: true, 
+    default: 'EGP' 
+  }, // Currency type (e.g., Egyptian Pound)
+
+  transactions: [
+    {
+      type: { 
+        type: String, 
+        enum: ['credit', 'debit'], 
+        required: true 
+      }, // Transaction type
+      amount: { 
+        type: Number, 
+        required: true 
+      }, // Transaction amount
+      description: { 
+        type: String 
+      }, // Optional note (e.g., "Waste reward", "Loan repayment")
+      date: { 
+        type: Date, 
+        default: Date.now 
+      } // Timestamp
+    }
+  ],
+
+  createdAt: { 
+    type: Date, 
+    default: Date.now 
+  }, // Wallet creation date
+
+  updatedAt: { 
+    type: Date, 
+    default: Date.now 
+  } // Last update timestamp
+});
+
+module.exports = mongoose.model('EWallet', EWalletSchema);
+
 ```
