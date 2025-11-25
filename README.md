@@ -260,3 +260,64 @@ WasteRequestSchema.pre("save", function(next){
 
 export default mongoose.model("WasteRequest", WasteRequestSchema);
 ```
+### Transaction History Request Schema
+
+```javascript
+const mongoose = require('mongoose');
+
+const TransactionSchema = new mongoose.Schema({
+  userId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User', 
+    required: true 
+  }, // User who performed the transaction
+
+  walletId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'EWallet', 
+    required: true 
+  }, // Link to the user's wallet
+
+  type: { 
+    type: String, 
+    enum: [
+      'waste_reward',      // credit
+      'deposit',           // credit
+      'withdrawal',        // debit
+      'loan_disbursement', // credit
+      'loan_repayment'     // debit
+    ], 
+    required: true 
+  }, // Specific type of transaction
+
+  direction: { 
+    type: String, 
+    enum: ['credit', 'debit'], 
+    required: true 
+  }, // Matches your wallet's style (credit/debit)
+
+  amount: { 
+    type: Number, 
+    required: true 
+  }, // Value of transaction
+
+  description: { 
+    type: String 
+  }, // e.g., "Reward for 10kg waste", "Loan repayment"
+
+  date: { 
+    type: Date, 
+    default: Date.now 
+  }, // Timestamp
+
+  relatedEntityId: { 
+    type: mongoose.Schema.Types.ObjectId 
+  }, // Optional link to Waste Request or Loan
+
+  relatedEntityType: { 
+    type: String, 
+    enum: ['WasteRequest', 'MicroLoan', null] 
+  }, // Helps identify the type of record
+});
+
+module.exports = mongoose.model('Transaction', TransactionSchema);
