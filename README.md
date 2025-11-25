@@ -70,7 +70,7 @@ _Assign one distinct use case from Section 3.2 to each team member. This member 
 | Malak Madyan | **Waste Delivery Request**            | Farmers submit a waste collection request with type, weight, and location. It’s saved as “pending” until a collector handles it, starting the waste-to-reward process.|
 | Hania Mohsen | **Micro Loan request**            | Submit and track microloan requests.           |
 | Nadeen Khalifa | **E-wallet**            | Transforms waste into direct financial value, while also opening the door to formal financial services and sustainable farming practices.                    |
-| Gamila Anwar | **Transaction History**            | [Description]                                    |
+| Gamila Anwar | **Transaction History**            | Responsible for developing an organized financial activity log that allows farmers to view and track all transactions within the app. This includes displaying waste-to-reward payments, e-wallet deposits and withdrawals, microloan disbursements and repayments, and incentive earnings. The feature helps farmers maintain full visibility over their financial activities.                                    |
 |                                    |
 
 ---
