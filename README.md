@@ -15,7 +15,7 @@ _List all team members (5-6 students) below._
 | :--------------- | :--------- | :------------- | :-------------- |
 | Nadeen Elkhalifa | 13004534      | T5          | @nadeenkhalifa     |
 | Zeina Fahim | 13007626       | T5           | @zeinafahim     |
-| Hania Mohsen | 1300       | T5          | @Hania-BI     |
+| Hania Mohsen | 13007287       | T5          | @Hania-BI     |
 | Malak Madyan | 13006076       | T5           | @malakmadyan2     |
 | Gamila Anwar | 13007300       | T5           | @gamilaanwar     |
 
@@ -25,12 +25,7 @@ _List all team members (5-6 students) below._
 
 _Provide a detailed description of your project concept here. What is the app? What problem does it solve?_
 
-- **Concept:** - Reward a Farmer is a digital Agri-FinTech platform designed to encourage Egyptian farmers to collect and recycle agricultural waste. The app integrates an e-wallet system, a waste-to-value exchange, farmer education modules, and microloan access into one seamless ecosystem.
-- The mobile application that rewards farmers with instant digital payments for every kilogram of waste they collect.
-- Farmers can use their in-app wallet to cash out, purchase farm inputs (fertilizers, seeds, Baramoda compost), or transfer money peer-to-peer.
-- The app also enables farmers to exchange waste for vouchers or discounts on eco-friendly products, track recycling trucks via GPS, and access video tutorials on modern farming and waste management.
-- Partner banks use wallet transaction history as a proxy for credit scoring, allowing farmers to qualify for microloans disbursed directly into their wallet.
-- The app solves several problems such as agricultural wate mismanagement, farmer financial exclusion, low-adoption of eco-friendly practices and weak market linkages.
+- **Concept:** “Farmers struggle with accumulating agricultural waste that has little value and limited recycling access. Our solution is a digital platform that connects them directly to recycling facilities, turning their waste into income while giving them easy financial tools to support their farming needs. Our app allows farmers to easily authenticate their identity and request waste pickup and delivery. The integrated e-wallet enables farmers to receive incentives, manage their money directly within the app, and request microloans based on their transaction history. A clear transaction history feature helps users track payments, rewards, and all financial activities in one place.”
 - **Link to Fin-Tech Course Document:** (https://www.canva.com/design/DAG42w8Iymc/Eua9EHPI2xOngmOR7N7AXg/edit)
 
 ---
@@ -41,21 +36,27 @@ _Provide a detailed description of your project concept here. What is the app? W
 
 _List ALL potential features/user stories envisioned for the complete product (beyond just this course)._
 
-- Feature A
-- Feature B
-- Feature C
-- ...
+- User Authentication
+- Send Waste collection request
+- Track waste collectors truck routes
+- E-wallet (recieve incentives, withdraw, deposit capabilities)
+- Transaction History
+- Marketplace
+- In App Educational Tutorials
+- Micro Loan request
+
+
 
 ### 3.2 Selected MVP Use Cases (Course Scope)
 
 _From the list above, identify the **5 or 6 specific use cases** you will implement for this course. Note: User Authentication is mandatory._
 
 1.  **User Authentication** (Registration/Login)
-2.  [Use Case 2 Title]
-3.  [Use Case 3 Title]
-4.  [Use Case 4 Title]
-5.  [Use Case 5 Title]
-6.  [Use Case 6 Title - if 6 members]
+2.  Send Waste collection request
+3.  E-wallet
+4.  Transaction History
+5.  Micro Loan request
+
 
 ---
 
@@ -65,12 +66,12 @@ _Assign one distinct use case from Section 3.2 to each team member. This member 
 
 | Team Member | Assigned Use Case       | Brief Description of Responsibility              |
 | :---------- | :---------------------- | :----------------------------------------------- |
-| [Student 1] | **User Authentication** | Register, Login, JWT handling, Password Hashing. |
-| [Student 2] | [Use Case 2]            | [e.g., Create and view Transaction history]      |
-| [Student 3] | [Use Case 3]            | [e.g., Profile management and updates]           |
-| [Student 4] | [Use Case 4]            | [e.g., Transfer funds logic]                     |
-| [Student 5] | [Use Case 5]            | [Description]                                    |
-| [Student 6] | [Use Case 6]            | [Description]                                    |
+| Zeina Fahim | **User Authentication** | Register, Login, JWT handling, Password Hashing. |
+| Malak Madyan | **aste delivery request**            | [e.g., Create and view Transaction history]      |
+| Hania Mohsen | **Micro Loan request**            | Submit and track microloan requests           |
+| Nadeen Khalifa | **E-wallet**            | [e.g., Transfer funds logic]                     |
+| Gamila Anwar | **Transaction History**            | [Description]                                    |
+|                                    |
 
 ---
 
@@ -89,10 +90,22 @@ const UserSchema = new mongoose.Schema({
 });
 ```
 
-### [Model 2 Name] Schema
+### [Micro Loan request] Schema
 
 ```javascript
-// Define schema here
+const MicroloanRequestSchema = new mongoose.Schema({
+  name: { type: String, required: true },          // user's full name
+  nationalId: { type: String, required: true },    // unique national ID
+  mobile: { type: String, required: true },        // for contact
+  amount: { type: Number, required: true },        // loan amount requested
+  purpose: { type: String, required: true },       // reason for loan
+  state: { 
+    type: String, 
+    enum: ['Submitted', 'Reviewed', 'Scored'], 
+    default: 'Submitted' 
+  },                                                // track progress of request
+  createdAt: { type: Date, default: Date.now },    // auto-set creation time
+});
 ```
 
 ### [Model 3 Name] Schema
