@@ -1,0 +1,25 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "y",
+  "homepage": "https://github.com/zeinafahim/RewardTheFarmer#readme",
+  "bugs": {
+    "url": "https://github.com/zeinafahim/RewardTheFarmer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeinafahim/RewardTheFarmer.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "mongoose": "^9.0.1"
+  }
+}
