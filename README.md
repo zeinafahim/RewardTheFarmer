@@ -62,7 +62,7 @@ _From the list above, identify the **5 or 6 specific use cases** you will implem
 
 ## 4. Feature Assignments (Accountability)
 
-_Assign one distinct use case from Section 3.2 to each team member. This member is responsible for the full-stack implementation of this feature._
+_Assign one distinct use case from Section 3.2 to each team member. This member is responsible for the full-stack implementation of this feature_
 
 | Team Member | Assigned Use Case       | Brief Description of Responsibility              |
 | :---------- | :---------------------- | :----------------------------------------------- |
