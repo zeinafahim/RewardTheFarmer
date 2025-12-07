@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import express from "express";
+=======
+>>>>>>> 9e5e0906d46dabe2426acb4d91983e2984a5121e
 const express = require("express");
 const TransactionHistory = require("../models/Transaction_History_Schema");
 const router = express.Router();
@@ -65,4 +68,9 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 export default router;
+=======
+module.exports = router;
+
+>>>>>>> 9e5e0906d46dabe2426acb4d91983e2984a5121e
