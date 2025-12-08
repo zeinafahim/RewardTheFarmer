@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 const MicroloanRequestSchema = new mongoose.Schema({
   name: { type: String, required: true },          // user's full name
   nationalId: { type: String, required: true },    // unique national ID
@@ -13,7 +15,7 @@ const MicroloanRequestSchema = new mongoose.Schema({
 });
 
 // Export models
-module.exports = mongoose.model("Loan", MicroloanRequestSchema);
-
+const Loan = mongoose.model("MicroLoan", MicroloanRequestSchema);
+export default Loan;
 
 

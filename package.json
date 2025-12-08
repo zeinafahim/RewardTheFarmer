@@ -12,7 +12,6 @@
   },
   "license": "ISC",
   "author": "",
-<<<<<<< HEAD
   "type": "module",
   "main": "server.js",
   "scripts": {
@@ -20,23 +19,14 @@
     "dev": "node Backend/server.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
-=======
-  "type": "commonjs",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^5.2.1",
-    "mongoose": "^9.0.1"
->>>>>>> 9e5e0906d46dabe2426acb4d91983e2984a5121e
   }
 }

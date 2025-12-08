@@ -1,19 +1,14 @@
-<<<<<<< HEAD
 import express from "express";
-=======
->>>>>>> 9e5e0906d46dabe2426acb4d91983e2984a5121e
-const express = require("express");
-const TransactionHistory = require("../models/Transaction_History_Schema");
+import TransactionHistory from "../models/transaction_history.js";
+
 const router = express.Router();
 
-// ---------------------------------------------------------
-// GET all transaction history records
-// ---------------------------------------------------------
+// GET ALL TRANSACTIONS
 router.get("/", async (req, res) => {
   try {
     const transactions = await TransactionHistory.find()
-      .populate("user")              // if your schema includes a user reference
-      .populate("relatedRequest");   // if linked to waste request or microloan
+      .populate("user")
+      .populate("relatedRequest");
 
     res.json(transactions);
   } catch (err) {
@@ -21,9 +16,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ---------------------------------------------------------
-// GET transaction history for a specific user
-// ---------------------------------------------------------
+// GET TRANSACTIONS FOR SPECIFIC USER
 router.get("/user/:userId", async (req, res) => {
   try {
     const history = await TransactionHistory.find({
@@ -36,9 +29,7 @@ router.get("/user/:userId", async (req, res) => {
   }
 });
 
-// ---------------------------------------------------------
-// CREATE a new transaction record
-// ---------------------------------------------------------
+// CREATE TRANSACTION
 router.post("/", async (req, res) => {
   try {
     const newTransaction = await TransactionHistory.create(req.body);
@@ -48,9 +39,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// ---------------------------------------------------------
-// UPDATE a transaction record (rare cases)
-// ---------------------------------------------------------
+// UPDATE TRANSACTION
 router.put("/:id", async (req, res) => {
   try {
     const updated = await TransactionHistory.findByIdAndUpdate(
@@ -59,8 +48,7 @@ router.put("/:id", async (req, res) => {
       { new: true }
     );
 
-    if (!updated)
-      return res.status(404).json({ message: "Transaction not found" });
+    if (!updated) return res.status(404).json({ message: "Transaction not found" });
 
     res.json(updated);
   } catch (err) {
@@ -68,9 +56,4 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 export default router;
-=======
-module.exports = router;
-
->>>>>>> 9e5e0906d46dabe2426acb4d91983e2984a5121e

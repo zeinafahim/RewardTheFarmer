@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const LocationSchema = new mongoose.Schema(
   {
@@ -44,5 +44,5 @@ WasteRequestSchema.pre("save", function (next) {
   next();
 });
 
-module.exports = mongoose.model("WasteRequest", WasteRequestSchema);
-
+const WasteRequest = mongoose.model("WasteRequest", WasteRequestSchema);
+export default WasteRequest;

@@ -1,7 +1,21 @@
 import express from "express";
 import EWallet from "../models/e-wallet.js";                 
-import Transaction from "../models/transaction_history.js";  
-import auth from "../middleware/auth.js";                   
+import Transaction from "../models/transaction_history.js";
+
+// Middleware to verify user authentication
+const auth = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "No token provided" });
+  
+  try {
+    // Decode token and attach user to req
+    const decoded = JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
+    req.user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Invalid token" });
+  }
+};
 
 const router = express.Router();
 

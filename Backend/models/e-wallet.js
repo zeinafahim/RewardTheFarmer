@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const EWalletSchema = new mongoose.Schema({
   userId: { 
@@ -56,4 +56,5 @@ const EWalletSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('EWallet', EWalletSchema);
+const EWallet = mongoose.model("EWallet", EWalletSchema);
+export default EWallet;

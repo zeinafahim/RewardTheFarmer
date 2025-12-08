@@ -1,5 +1,6 @@
-const express = require("express");
-const WasteRequest = require("../models/Waste_Delivery_Request_Schema");
+import express from "express";
+import WasteRequest from "../models/waste_delivery_request.js";
+
 const router = express.Router();
 
 // ---------------------------------------------------------
@@ -64,5 +65,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
-
+export default router;
