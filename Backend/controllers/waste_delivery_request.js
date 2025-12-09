@@ -1,7 +1,9 @@
-import WasteRequest from ("../models/waste_delivery_request.js");
+import WasteRequest from "../models/waste_delivery_request.js";
 
-// Create a new waste request
-exports.createWasteRequest = async (req, res) => {
+// ---------------------------------------------------------
+// CREATE a new waste request
+// ---------------------------------------------------------
+export const createWasteRequest = async (req, res) => {
   try {
     const wasteRequest = new WasteRequest(req.body);
     await wasteRequest.save();
@@ -11,13 +13,16 @@ exports.createWasteRequest = async (req, res) => {
   }
 };
 
-// Get all waste requests
-exports.getWasteRequests = async (req, res) => {
+// ---------------------------------------------------------
+// GET all waste requests
+// ---------------------------------------------------------
+export const getWasteRequests = async (req, res) => {
   try {
     const requests = await WasteRequest.find()
       .populate("farmer", "name email")
       .populate("assignedCollector", "name")
-      .populate("verifiedBy", "name");
+      .populate("verifiedBy", "name")
+      .populate("rewardTransaction");
 
     res.json(requests);
   } catch (err) {
@@ -25,28 +30,40 @@ exports.getWasteRequests = async (req, res) => {
   }
 };
 
-// Update request info
-exports.updateWasteRequest = async (req, res) => {
+// ---------------------------------------------------------
+// UPDATE any waste request
+// ---------------------------------------------------------
+export const updateWasteRequest = async (req, res) => {
   try {
-    const request = await WasteRequest.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json({ message: "Waste request updated successfully", data: request });
+    const updated = await WasteRequest.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+    if (!updated) return res.status(404).json({ message: "Request not found" });
+
+    res.json({ message: "Waste request updated", data: updated });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// Delete a waste request
-exports.deleteWasteRequest = async (req, res) => {
+// ---------------------------------------------------------
+// DELETE a request
+// ---------------------------------------------------------
+export const deleteWasteRequest = async (req, res) => {
   try {
-    await WasteRequest.findByIdAndDelete(req.params.id);
+    const deleted = await WasteRequest.findByIdAndDelete(req.params.id);
+
+    if (!deleted) return res.status(404).json({ message: "Request not found" });
+
     res.json({ message: "Waste request deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// Update status (assign, verify, reject, complete)
-exports.updateWasteStatus = async (req, res) => {
+// ---------------------------------------------------------
+// UPDATE STATUS ONLY (assign, verify, complete)
+// ---------------------------------------------------------
+export const updateWasteStatus = async (req, res) => {
   try {
     const { status, assignedCollector, actualWeightKg, verifiedBy, verificationNotes } = req.body;
 
@@ -64,9 +81,11 @@ exports.updateWasteStatus = async (req, res) => {
       updateFields.verifiedAt = new Date();
     }
 
-    const request = await WasteRequest.findByIdAndUpdate(req.params.id, updateFields, { new: true });
-    res.json({ message: "Status updated successfully", data: request });
+    const updated = await WasteRequest.findByIdAndUpdate(req.params.id, updateFields, { new: true });
 
+    if (!updated) return res.status(404).json({ message: "Request not found" });
+
+    res.json({ message: "Status updated successfully", data: updated });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
