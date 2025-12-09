@@ -25,3 +25,4 @@ router.patch("/:id/status", updateWasteStatus);
 router.delete("/:id", deleteWasteRequest);
 
 export default router;
+
