@@ -1,27 +1,39 @@
 import Transaction from "../models/transaction_history.js";
 
-// Create new transaction
-exports.createTransaction = async (req, res) => {
+// --------------------------------------------
+// Create a new transaction
+// --------------------------------------------
+export const createTransaction = async (req, res) => {
   try {
     const transaction = new Transaction(req.body);
     await transaction.save();
-    res.status(201).json({ message: "Transaction created successfully", transaction });
+
+    res.status(201).json({
+      message: "Transaction created successfully",
+      transaction
+    });
   } catch (error) {
     console.error("Error creating transaction:", error);
-    res.status(500).json({ message: "Failed to create transaction", error });
+    res.status(500).json({
+      message: "Failed to create transaction",
+      error
+    });
   }
 };
 
-// Get all transactions with filters (optional: type, status, date range)
-exports.getTransactions = async (req, res) => {
+
+// --------------------------------------------
+// Get all transactions with filters
+// --------------------------------------------
+export const getTransactions = async (req, res) => {
   try {
     const { type, status, startDate, endDate } = req.query;
-    
+
     let filter = {};
 
     if (type) filter.type = type;
     if (status) filter.status = status;
-    
+
     if (startDate && endDate) {
       filter.date = { $gte: new Date(startDate), $lte: new Date(endDate) };
     }
@@ -35,11 +47,14 @@ exports.getTransactions = async (req, res) => {
   }
 };
 
+// --------------------------------------------
 // Get transaction by ID
-exports.getTransactionById = async (req, res) => {
+// --------------------------------------------
+export const getTransactionById = async (req, res) => {
   try {
     const transaction = await Transaction.findById(req.params.id);
-    if (!transaction) return res.status(404).json({ message: "Transaction not found" });
+    if (!transaction)
+      return res.status(404).json({ message: "Transaction not found" });
 
     res.status(200).json(transaction);
   } catch (error) {
@@ -48,11 +63,15 @@ exports.getTransactionById = async (req, res) => {
   }
 };
 
+// --------------------------------------------
 // Get transactions by account ID
-exports.getTransactionsByAccount = async (req, res) => {
+// --------------------------------------------
+export const getTransactionsByAccount = async (req, res) => {
   try {
-    const transactions = await Transaction.find({ accountId: req.params.accountId }).sort({ date: -1 });
-    
+    const transactions = await Transaction.find({
+      accountId: req.params.accountId
+    }).sort({ date: -1 });
+
     res.status(200).json(transactions);
   } catch (error) {
     console.error("Error fetching account transactions:", error);
@@ -60,8 +79,10 @@ exports.getTransactionsByAccount = async (req, res) => {
   }
 };
 
-// Update a transaction status (ex: change pending → completed)
-exports.updateTransactionStatus = async (req, res) => {
+// --------------------------------------------
+// Update transaction status
+// --------------------------------------------
+export const updateTransactionStatus = async (req, res) => {
   try {
     const { status } = req.body;
 
@@ -71,9 +92,13 @@ exports.updateTransactionStatus = async (req, res) => {
       { new: true }
     );
 
-    if (!updatedTransaction) return res.status(404).json({ message: "Transaction not found" });
+    if (!updatedTransaction)
+      return res.status(404).json({ message: "Transaction not found" });
 
-    res.status(200).json({ message: "Transaction updated", updatedTransaction });
+    res.status(200).json({
+      message: "Transaction updated",
+      updatedTransaction
+    });
   } catch (error) {
     console.error("Error updating transaction:", error);
     res.status(500).json({ message: "Failed to update transaction", error });

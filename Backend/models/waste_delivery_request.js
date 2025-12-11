@@ -12,7 +12,7 @@ const LocationSchema = new mongoose.Schema(
 );
 
 const WasteRequestSchema = new mongoose.Schema({
-  farmer: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  farmer: { type: String, required: true },
   wasteType: { type: String, required: true },
   estimatedWeightKg: { type: Number, required: true, min: 0 },
 
@@ -25,10 +25,10 @@ const WasteRequestSchema = new mongoose.Schema({
     default: "pending"
   },
 
-  assignedCollector: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  assignedCollector: { type: String },
   assignedAt: Date,
 
-  verifiedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  verifiedBy: { type: String },
   actualWeightKg: { type: Number, min: 0 },
   verifiedAt: Date,
   verificationNotes: String,
@@ -39,9 +39,8 @@ const WasteRequestSchema = new mongoose.Schema({
   updatedAt: Date
 });
 
-WasteRequestSchema.pre("save", function (next) {
+WasteRequestSchema.pre("save", async function () {
   this.updatedAt = new Date();
-  next();
 });
 
 const WasteRequest = mongoose.model("WasteRequest", WasteRequestSchema);

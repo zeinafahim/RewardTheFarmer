@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 // ---------------------------------------------------------
 // REGISTER USER
 // ---------------------------------------------------------
-exports.registerUser = async (req, res) => {
+export const registerUser = async (req, res) => {
   try {
     const { name, phone, password, role, governorate, village } = req.body;
 
@@ -34,7 +34,7 @@ exports.registerUser = async (req, res) => {
 // ---------------------------------------------------------
 // LOGIN USER
 // ---------------------------------------------------------
-exports.loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
   try {
     const { phone, password } = req.body;
 
@@ -59,9 +59,10 @@ exports.loginUser = async (req, res) => {
 // ---------------------------------------------------------
 // UPDATE USER (Profile)
 // ---------------------------------------------------------
-exports.updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   try {
     const updates = req.body;
+
     const updated = await User.findByIdAndUpdate(req.user.id, updates, {
       new: true
     }).select("-password");
@@ -75,7 +76,7 @@ exports.updateUser = async (req, res) => {
 // ---------------------------------------------------------
 // DELETE USER
 // ---------------------------------------------------------
-exports.removeUser = async (req, res) => {
+export const removeUser = async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
     res.json({ message: "User removed" });

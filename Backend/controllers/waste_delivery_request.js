@@ -1,11 +1,12 @@
 import WasteRequest from "../models/waste_delivery_request.js";
 
+
 // ---------------------------------------------------------
 // CREATE a new waste request
 // ---------------------------------------------------------
 export const createWasteRequest = async (req, res) => {
   try {
-    const wasteRequest = new WasteRequest(req.body);
+    const wasteRequest = new Wasterequest(req.body);
     await wasteRequest.save();
     res.status(201).json({ message: "Waste request created successfully", data: wasteRequest });
   } catch (err) {

@@ -5,7 +5,7 @@ import {
   updateWasteRequest,
   deleteWasteRequest,
   updateWasteStatus
-} from "../controllers/wasteRequestController.js";
+} from "../controllers/waste_delivery_request.js";
 
 const router = express.Router();
 
@@ -25,4 +25,5 @@ router.patch("/:id/status", updateWasteStatus);
 router.delete("/:id", deleteWasteRequest);
 
 export default router;
+
 

@@ -1,15 +1,22 @@
 import express from "express";
-import EWallet from "../models/e-wallet.js";                 
-import Transaction from "../models/transaction_history.js";
+import {
+  getWalletInfo,
+  creditWallet,
+  debitWallet,
+  getTransactionHistory
+} from "../controllers/e-wallet.js";
 
-// Middleware to verify user authentication
+const router = express.Router();
+
+// Auth middleware
 const auth = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(401).json({ message: "No token provided" });
-  
+
   try {
-    // Decode token and attach user to req
-    const decoded = JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
+    const decoded = JSON.parse(
+      Buffer.from(token.split(".")[1], "base64").toString()
+    );
     req.user = decoded;
     next();
   } catch (err) {
@@ -17,92 +24,21 @@ const auth = (req, res, next) => {
   }
 };
 
-const router = express.Router();
-
-// Test route
+// TEST route
 router.get("/", (req, res) => {
   res.send("E-Wallet route works!");
 });
 
-// Get wallet info
-router.get("/info", auth, async (req, res) => {
-  try {
-    const wallet = await EWallet.findOne({ userId: req.user.id });
-    if (!wallet) return res.status(404).json({ message: "Wallet not found" });
-    res.json(wallet);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+// GET wallet info
+router.get("/info", auth, getWalletInfo);
 
-// Credit wallet (POST)
-router.post("/credit", auth, async (req, res) => {
-  try {
-    const { amount, description } = req.body;
-    if (amount <= 0) return res.status(400).json({ message: "Amount must be positive" });
+// CREDIT wallet
+router.post("/credit", auth, creditWallet);
 
-    const wallet = await EWallet.findOne({ userId: req.user.id });
-    if (!wallet) return res.status(404).json({ message: "Wallet not found" });
+// DEBIT wallet
+router.post("/debit", auth, debitWallet);
 
-    wallet.balance += amount;
-    wallet.updatedAt = Date.now();
-    await wallet.save();
-
-    const txn = await Transaction.create({
-      accountId: wallet._id,
-      type: "deposit",
-      amount,
-      description,
-      status: "completed",
-      date: new Date(),
-    });
-
-    res.json({ wallet, transaction: txn });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// Debit wallet (POST)
-router.post("/debit", auth, async (req, res) => {
-  try {
-    const { amount, description } = req.body;
-    if (amount <= 0) return res.status(400).json({ message: "Amount must be positive" });
-
-    const wallet = await EWallet.findOne({ userId: req.user.id });
-    if (!wallet) return res.status(404).json({ message: "Wallet not found" });
-    if (wallet.balance < amount) return res.status(400).json({ message: "Insufficient balance" });
-
-    wallet.balance -= amount;
-    wallet.updatedAt = Date.now();
-    await wallet.save();
-
-    const txn = await Transaction.create({
-      accountId: wallet._id,
-      type: "withdrawal",
-      amount,
-      description,
-      status: "completed",
-      date: new Date(),
-    });
-
-    res.json({ wallet, transaction: txn });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// Get transaction history for this wallet
-router.get("/transactions", auth, async (req, res) => {
-  try {
-    const wallet = await EWallet.findOne({ userId: req.user.id });
-    if (!wallet) return res.status(404).json({ message: "Wallet not found" });
-
-    const transactions = await Transaction.find({ accountId: wallet._id }).sort({ date: -1 });
-    res.json(transactions);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+// GET wallet transaction history
+router.get("/transactions", auth, getTransactionHistory);
 
 export default router;
