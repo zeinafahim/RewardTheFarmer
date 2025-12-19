@@ -36,9 +36,9 @@ export const registerUser = async (req, res) => {
 // ---------------------------------------------------------
 export const loginUser = async (req, res) => {
   try {
-    const { phone, password } = req.body;
+    const {phone, password } = req.body;
 
-    const user = await User.findOne({ phone });
+    const user = await User.findOne({phone});
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const match = await bcrypt.compare(password, user.password);
@@ -50,7 +50,7 @@ export const loginUser = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    res.json({ message: "Login successful", token, user });
+    res.json({ message: "Login successful - Token returned", token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
