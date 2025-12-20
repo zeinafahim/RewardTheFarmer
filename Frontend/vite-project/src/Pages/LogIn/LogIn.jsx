@@ -1,35 +1,43 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LogIn.css';
+import { LogIn } from '../../api/LogIn.js';
 
 const Login = ({ onLoginSuccess }) => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate API logic
-    setTimeout(() => {
-      onLoginSuccess({
-        _id: 'user_123',
-        name: 'Ahmed Farmer',
-        phone,
-        role: 'farmer',
-        governorate: 'Giza',
-        village: 'Badrasheen',
-        walletBalance: 1250.75,
-        createdAt: new Date()
-      });
-    }, 1200);
+    setError('');
+
+    try {
+      // Call backend login API
+      const data = await LogIn.login(phone, password);
+
+      // Save token & user info
+      localStorage.setItem('jwt', data.token);
+      onLoginSuccess && onLoginSuccess(data.user);
+
+      // Redirect to Home2
+      navigate('/home2');
+
+    } catch (err) {
+      setError(err.message || 'Login failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-auth-wrapper animate-fade-in">
       <div className="login-split-layout">
-        
+
         {/* Left Side: Brand Visuals & Atmospheric Content */}
         <section className="login-visual-panel">
           <div className="panel-overlay"></div>
@@ -50,16 +58,6 @@ const Login = ({ onLoginSuccess }) => {
                 and contribute to a zero-waste agricultural future.
               </p>
             </div>
-            <div className="panel-stats">
-              <div className="mini-stat">
-                <span className="stat-value">5K+</span>
-                <span className="stat-label">Farmers</span>
-              </div>
-              <div className="mini-stat">
-                <span className="stat-value">12K</span>
-                <span className="stat-label">Tons Recycled</span>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -69,6 +67,7 @@ const Login = ({ onLoginSuccess }) => {
             <header className="form-header">
               <h2 className="form-title">Welcome Back</h2>
               <p className="form-subtitle">Enter your credentials to manage your farm profile</p>
+              {error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
             </header>
 
             <form onSubmit={handleSubmit} className="auth-form-body">

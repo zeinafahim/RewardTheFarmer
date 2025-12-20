@@ -27,7 +27,7 @@ const TransactionHistory = ({ user }) => {
         
         <header className="history-header">
           <div className="header-nav">
-            <h1>Transaction History</h1>
+            <h1>{user.name}'sTransaction History</h1>
           </div>
           <div className="header-actions">
             <button className="btn-filter">

@@ -4,6 +4,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 dotenv.config();
+const app = express();
+
+app.use(express.json()); 
+
 
 // Routes
 import eWalletRoutes from "./routes/e-wallet.js";
@@ -12,10 +16,11 @@ import userRoutes from "./routes/user_authentication.js";
 import loanRoutes from "./routes/loan_request.js";
 import wasteRequestRoutes from "./routes/waste_delivery_request.js";
 
-const app = express();
 
-app.use(cors());
-app.use(express.json());
+app.use(cors({
+  origin: "http://localhost:5173", // frontend URL
+  credentials: true,               
+}));
 
 // Use routes
 app.use("/api/e-wallet", eWalletRoutes);

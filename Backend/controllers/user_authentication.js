@@ -4,9 +4,7 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
-// ---------------------------------------------------------
 // REGISTER USER
-// ---------------------------------------------------------
 export const registerUser = async (req, res) => {
   try {
     const { name, phone, password, role, governorate, village } = req.body;
@@ -22,50 +20,46 @@ export const registerUser = async (req, res) => {
       password: hashedPassword,
       role,
       governorate,
-      village
+      village,
     });
 
-    res.json({ message: "User registered", newUser });
+    const token = jwt.sign({ id: newUser._id, role: newUser.role }, JWT_SECRET, { expiresIn: "7d" });
+
+    res.json({ message: "User registered", user: newUser, token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// ---------------------------------------------------------
 // LOGIN USER
-// ---------------------------------------------------------
 export const loginUser = async (req, res) => {
   try {
-    const {phone, password } = req.body;
+    const { phone, password } = req.body;
 
-    const user = await User.findOne({phone});
+    const user = await User.findOne({ phone });
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ message: "Incorrect password" });
 
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: "7d" });
 
-    res.json({ message: "Login successful - Token returned", token });
+    res.json({ message: "Login successful", user, token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// ---------------------------------------------------------
-// UPDATE USER (Profile)
-// ---------------------------------------------------------
+// UPDATE USER
 export const updateUser = async (req, res) => {
   try {
     const updates = req.body;
 
-    const updated = await User.findByIdAndUpdate(req.user.id, updates, {
-      new: true
-    }).select("-password");
+    const updated = await User.findByIdAndUpdate(
+      req.user.id,
+      updates,
+      { new: true }
+    ).select("-password");
 
     res.json({ message: "User updated", updated });
   } catch (err) {
