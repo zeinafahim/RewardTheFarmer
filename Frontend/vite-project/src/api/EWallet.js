@@ -1,67 +1,51 @@
 const API_BASE = "http://localhost:3000/api/e-wallet";
+const getToken = () => localStorage.getItem("jwt");
 
-export const EWallet = {
-  // Get user wallet info including balance
-  getWalletInfo: async (userId) => {
-    const response = await fetch(`${API_BASE}/e-wallet/${userId}`, {
-      method: "GET",
-      credentials: "include",
+export const eWalletAPI = {
+  getWallet: async () => {
+    const res = await fetch(`${API_BASE}/info`, {
+      headers: { Authorization: `Bearer ${getToken()}` },
     });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to fetch wallet info");
-    }
-
-    return await response.json();
+    if (!res.ok) throw new Error("Failed to fetch wallet");
+    return res.json();
   },
 
-  // Get user transaction history
-  getTransactions: async (userId) => {
-    const response = await fetch(`${API_BASE}/transactions/user/${userId}`, {
-      method: "GET",
-      credentials: "include",
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to fetch transactions");
-    }
-
-    return await response.json();
-  },
-
-  // Deposit funds into wallet
-  deposit: async (userId, amount) => {
-    const response = await fetch(`${API_BASE}/e-wallet/deposit`, {
+  deposit: async (amount) => {
+    const res = await fetch(`${API_BASE}/credit`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ userId, amount }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+      body: JSON.stringify({ amount }),
     });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Deposit failed");
-    }
-
-    return await response.json();
+    if (!res.ok) throw new Error("Deposit failed");
+    return res.json();
   },
 
-  // Withdraw funds from wallet
-  withdraw: async (userId, amount) => {
-    const response = await fetch(`${API_BASE}/e-wallet/withdraw`, {
+  withdraw: async (amount) => {
+    const res = await fetch(`${API_BASE}/debit`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ userId, amount }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+      body: JSON.stringify({ amount }),
     });
+    if (!res.ok) throw new Error("Withdraw failed");
+    return res.json();
+  },
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Withdrawal failed");
-    }
-
-    return await response.json();
-  }
+  send: async (amount, receiverId) => {
+    const res = await fetch(`${API_BASE}/send`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+      body: JSON.stringify({ amount, receiverId }),
+    });
+    if (!res.ok) throw new Error("Send failed");
+    return res.json();
+  },
 };

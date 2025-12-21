@@ -1,6 +1,8 @@
 import User from "../models/user_authentication.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import EWallet from "../models/e-wallet.js";
+
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
@@ -30,6 +32,14 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+const newWallet = new EWallet({
+  userId: newUser._id,
+  balance: 0,
+  currency: "EGP",
+  transactions: []
+});
+await newWallet.save();
 
 // LOGIN USER
 export const loginUser = async (req, res) => {

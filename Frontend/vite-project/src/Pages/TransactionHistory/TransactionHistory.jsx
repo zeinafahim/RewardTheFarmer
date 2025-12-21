@@ -29,14 +29,7 @@ const TransactionHistory = ({ user }) => {
           <div className="header-nav">
             <h1>{user.name}'sTransaction History</h1>
           </div>
-          <div className="header-actions">
-            <button className="btn-filter">
-              <i className="fa-solid fa-sliders"></i> Filters
-            </button>
-            <button className="btn-export">
-              <i className="fa-solid fa-cloud-arrow-down"></i> Export
-            </button>
-          </div>
+          
         </header>
 
         <section className="filter-pills">
