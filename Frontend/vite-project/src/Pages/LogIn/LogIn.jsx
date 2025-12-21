@@ -25,7 +25,7 @@ const Login = ({ onLoginSuccess }) => {
       onLoginSuccess && onLoginSuccess(data.user);
 
       // Redirect to Home2
-      navigate('/home2');
+      navigate('/dashboard');
 
     } catch (err) {
       setError(err.message || 'Login failed');

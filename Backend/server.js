@@ -26,7 +26,7 @@ app.use(cors({
 app.use("/api/e-wallet", eWalletRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/microloans", loanRoutes);
+app.use("/api/microloans/loans", loanRoutes);
 app.use("/api/waste-delivery", wasteRequestRoutes);
 
 console.log("MONGO_URI is:", process.env.MONGO_URI);

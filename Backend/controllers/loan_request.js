@@ -33,6 +33,22 @@ export const getAllLoanRequests = async (req, res) => {
   }
 };
 
+// Get current user's loan requests
+export const getMyLoans = async (req, res) => {
+  try {
+    const { nationalId } = req.query;
+
+    if (!nationalId) {
+      return res.status(400).json({ message: "National ID is required" });
+    }
+
+    const loans = await Loan.find({ nationalId }).sort({ createdAt: -1 });
+    res.json(loans);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // Get single loan by ID
 export const getLoanById = async (req, res) => {
   try {

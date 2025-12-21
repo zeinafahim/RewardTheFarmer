@@ -5,18 +5,22 @@ export const LoanRequest = {
    * Submit a loan request
    */
   submitLoanRequest: async ({
+    name,
     nationalId,
+    mobile,
     amount,
     purpose,
   }) => {
-    const response = await fetch(`${API_BASE}/loans/apply`, {
+    const response = await fetch(`${API_BASE}/loans/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
       body: JSON.stringify({
+        name,
         nationalId,
+        mobile,
         amount,
         purpose,
       }),
@@ -33,19 +37,22 @@ export const LoanRequest = {
   /**
    * Get current user's loan applications
    */
-  getMyLoans: async () => {
-    const response = await fetch(`${API_BASE}/loans/my-loans`, {
+  getMyLoans: async (nationalId) => {
+  const response = await fetch(
+    `${API_BASE}/loans/my-loans?nationalId=${nationalId}`,
+    {
       method: "GET",
       credentials: "include",
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to fetch loans");
     }
+  );
 
-    return await response.json();
-  },
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to fetch loans");
+  }
+
+  return await response.json();
+},
 
   /**
    * Get loan details by ID

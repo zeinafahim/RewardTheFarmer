@@ -4,7 +4,8 @@ export const WasteAPI = {
   // Create a new waste delivery request
   createRequest: async (requestData) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/waste-requests`, {
+      // ✅ Fixed endpoint: remove "/waste-requests" to match backend
+      const response = await fetch(`${API_BASE_URL}/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,7 +29,8 @@ export const WasteAPI = {
   // Optional: Get all waste requests for the current user
   getRequests: async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/waste-requests`, {
+      // ✅ Fixed endpoint: remove "/waste-requests" to match backend
+      const response = await fetch(`${API_BASE_URL}/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

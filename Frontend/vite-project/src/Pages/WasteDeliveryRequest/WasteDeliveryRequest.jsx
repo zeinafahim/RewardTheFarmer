@@ -1,20 +1,38 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './WasteDeliveryRequest.css';
+import { WasteAPI } from '../../api/WasteDeliveryRequest.js';
 
 const WasteDelivery = ({ user }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSuccess(true);
-    }, 1500);
-  };
+  // Dummy state for minimal API usage
+  const [wasteType, setWasteType] = useState('');
+  const [weight, setWeight] = useState('');
+  const [specialInstructions, setSpecialInstructions] = useState('');
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    await WasteAPI.createRequest({
+      farmer: user._id,                      // required field
+      wasteType: wasteType || 'Rice Straw',  // match schema
+      estimatedWeightKg: Number(weight) || 500, // match schema and convert to Number
+      location: { address: `${user.village}, ${user.governorate}` }, // matches LocationSchema
+      notes: specialInstructions || ''
+    });
+
+    setSuccess(true);
+  } catch (error) {
+    alert(error.message || 'Failed to submit waste request');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   if (success) return (
     <div className="waste-success-overlay animate-fade-in">
@@ -58,7 +76,11 @@ const WasteDelivery = ({ user }) => {
                     <label>Waste Type</label>
                     <div className="input-wrapper">
                       <i className="fa-solid fa-leaf"></i>
-                      <select required>
+                      <select 
+                        required 
+                        value={wasteType} 
+                        onChange={(e) => setWasteType(e.target.value)}
+                      >
                         <option value="">Select Type</option>
                         <option>Rice Straw (EGP 1.5/kg)</option>
                         <option>Corn Stalks (EGP 1.2/kg)</option>
@@ -71,7 +93,15 @@ const WasteDelivery = ({ user }) => {
                     <label>Estimated Weight (Kg)</label>
                     <div className="input-wrapper">
                       <i className="fa-solid fa-weight-hanging"></i>
-                      <input type="number" placeholder="500" min="50" step="10" required />
+                      <input 
+                        type="number" 
+                        placeholder="500" 
+                        min="50" 
+                        step="10" 
+                        required 
+                        value={weight} 
+                        onChange={(e) => setWeight(e.target.value)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -98,6 +128,8 @@ const WasteDelivery = ({ user }) => {
                     <textarea 
                       placeholder="e.g. Near the north irrigation canal, gate code 1234..." 
                       rows={3}
+                      value={specialInstructions}
+                      onChange={(e) => setSpecialInstructions(e.target.value)}
                     ></textarea>
                   </div>
                 </div>
